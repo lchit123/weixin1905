@@ -7,11 +7,8 @@ use Illuminate\Http\Request;
 
 class WeiXinController extends Controller
 {
-//    public function admin(){
-//    	echo "123abc";
-//    }
-    public function  admin(Request $request)
+    public function admin()
     {
-        echo 1;
+        echo 2222;
     }
 }
