@@ -15,7 +15,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test/','Test\WeiXinController@admin');
+// Route::get('/test','test\WeiXinController@admin');
+Route::get('one','test\WeixinControllerWadmin');
 
 
 
