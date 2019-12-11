@@ -16,7 +16,7 @@ Route::get('/', function () {
 });
 
 // Route::get('/test','test\WeiXinController@admin');
-Route::any('test','WeixinController@test');
+Route::any('test/cs','WeixinController@test');
 
 
 

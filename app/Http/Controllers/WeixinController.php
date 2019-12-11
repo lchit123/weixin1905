@@ -8,6 +8,6 @@ class WeixinController extends Controller
 {
 	public function test()
 	{
-		echo "zy";
+		echo "测试";
 	}
 }
