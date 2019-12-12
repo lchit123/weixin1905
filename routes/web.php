@@ -13,14 +13,19 @@
 
 Route::get('/', function () {
     return view('welcome');
-      
 });
-
-
-Route::get('/index','WeixinController@index');
- 
-Route::any('/weixin/index','WeiXin\WxUserController@index');
- 
+Route::get('/info',function(){
+	phpinfo();
+});
+Route::get('/test/hello','Test\TestController@hello');
+Route::get('/test/adduser','User\LoginController@addUser');
+Route::get('/test/redis1','Test\TestController@redis1');
+Route::get('/test/redis2','Test\TestController@redis2');
+Route::get('/test/xml','Test\TestController@xmlTest');
+Route::get('/test/baidu','Test\TestController@baidu');
+//微信开发
+Route::get('/wx','WeiXin\WxController@wechat');
+Route::post('/wx','WeiXin\WxController@receiv');        //接收微信的推送事件
 
 
 
