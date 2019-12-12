@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 
 class WeixinController extends Controller
 {
-	public function test()
+	public function index()
 	{
 		echo "hefwehjw";
 	}
