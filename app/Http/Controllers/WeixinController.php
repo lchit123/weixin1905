@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 
 class WeixinController extends Controller
 {
-	public function admin()
+	public function test()
 	{
-		echo "345";
+		echo "hefwehjw";
 	}
 }

@@ -15,7 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/test','WeiXinController@admin');
+Route::get('/test','WeixinController@test');
  
 Route::any('/weixin/index','WeiXin\\WxUserController@index');
  
