@@ -9,6 +9,7 @@ class WxController extends Controller
     {
         $token = 'abc123token';       //开发提前设置好的 token
         $signature = $_GET["signature"];
+        dd($signature);
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
         $echostr = $_GET["echostr"];
@@ -40,7 +41,7 @@ class WxController extends Controller
         $msg_type = $xml_obj->MsgType;
         $touser = $xml_obj->FromUserName;       //接收消息的用户openid
         $fromuser = $xml_obj->ToUserName;       // 开发者公众号的 ID
-        $time = time();
+        $time = time(); 
         if($msg_type=='text'){
             $content = date('Y-m-d H:i:s') . $xml_obj->Content;
             $response_text = '<xml>
