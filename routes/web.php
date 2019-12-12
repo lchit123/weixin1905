@@ -12,11 +12,10 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    // return view('welcome');
+     phpinfo();
 });
-Route::get('/', function () {
-    phpoinfo();
-});
+
 
 Route::get('/index','WeixinController@index');
  
