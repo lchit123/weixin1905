@@ -17,7 +17,7 @@ Route::get('/', function () {
 
 Route::get('/index','WeixinController@index');
  
-Route::any('/weixin/index','WeiXin\\WxUserController@index');
+Route::any('/weixin/index','WeiXin\WxUserController@index');
  
 
 
