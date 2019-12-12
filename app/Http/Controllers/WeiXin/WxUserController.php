@@ -9,6 +9,6 @@ class WxUserController extends Controller
 {
     public function index()
     {
-    	echo 'hello world';
+    	echo '123';
     }
 }
