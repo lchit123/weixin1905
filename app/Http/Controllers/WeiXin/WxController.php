@@ -5,19 +5,19 @@ use Illuminate\Http\Request;
  
 class WxController extends Controller
 {
-    protected $access_token;
-    public function __construct()
-    {
-        //获取 access_token
-        $this->access_token = $this->getAccessToken();
-    }
-    protected function getAccessToken()
-    {
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('APPID').'&secret='.env('APPSECRET');
-        $data_json = file_get_contents($url);
-        $arr = json_decode($data_json,true);
-        return $arr['access_token'];
-    }
+    // protected $access_token;
+    // public function __construct()
+    // {
+    //     //获取 access_token
+    //     $this->access_token = $this->getAccessToken();
+    // }
+    // protected function getAccessToken()
+    // {
+    //     $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('APPID').'&secret='.env('APPSECRET');
+    //     $data_json = file_get_contents($url);
+    //     $arr = json_decode($data_json,true);
+    //     return $arr['access_token'];
+    // }
     /**
      * 处理接入
      */
