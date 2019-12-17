@@ -14,11 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/info',function(){
-	phpinfo();
-});
-
 Route::get('weixin/test','Wechat\WechatController@test');
 Route::get('weixin/index','Wechat\WechatController@checkSignature');//处理接入请求
 Route::post('weixin/index','Wechat\WechatController@receiv');         //接收微信的推送事件
