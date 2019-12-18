@@ -11,10 +11,10 @@
 |
 */
 
-/*Route::get('/', function () {
+Route::get('/', function () {
     return view('welcome');
 });
-Route::get('weixin/test','Wechat\WechatController@test');
+/*Route::get('weixin/test','Wechat\WechatController@test');
 Route::get('weixin/index','Wechat\WechatController@checkSignature');//处理接入请求
 Route::post('weixin/index','Wechat\WechatController@receiv');         //接收微信的推送事件
 Route::get('weixin/media','Wechat\WechatController@getMedia');         //获取临时素材

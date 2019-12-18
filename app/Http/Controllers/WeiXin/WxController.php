@@ -30,6 +30,7 @@ class WxController extends Controller
         // print_r($arr);die;
         // Redis::set($key,$arr['access_token']);
         // Redis::expire($key,3600);
+        dd($arr['access_token']);die;
         return $arr['access_token'];
     }
     /**
