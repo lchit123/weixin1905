@@ -19,18 +19,16 @@ class WxController extends Controller
     }
     protected function getAccessToken()
     {
-        // $key = 'wx_access_token';
-        // $access_token = Redis::get($key);
-        // if($access_token){
-        //    return $access_token;
-        // }
-        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('APPID').'&secret='.env('APPSECRET');
+        $key = 'wx_access_token';
+        $access_token = Redis::get($key);
+        if($access_token){
+            return $access_token;
+        }
+        $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid='.env('WX_APPID').'&secret='.env('WX_APPSECRET');
         $data_json = file_get_contents($url);
         $arr = json_decode($data_json,true);
-        // print_r($arr);die;
-        // Redis::set($key,$arr['access_token']);
-        // Redis::expire($key,3600);
-        dd($arr['access_token']);die;
+        Redis::set($key,$arr['access_token']);
+        Redis::expire($key,3600);
         return $arr['access_token'];
     }
     /**
@@ -38,7 +36,7 @@ class WxController extends Controller
      */
     public function wechat()
     {
-        $token = 'abc123token';       //开发提前设置好的 token
+        $token = '2259b56f5898cd6192c50';       //开发提前设置好的 token
         $signature = $_GET["signature"];
         $timestamp = $_GET["timestamp"];
         $nonce = $_GET["nonce"];
@@ -67,127 +65,137 @@ class WxController extends Controller
         $xml_obj = simplexml_load_string($xml_str);
         $event = $xml_obj->Event;       // 获取事件类型
         $openid = $xml_obj->FromUserName;       //获取用户的openid
-        // if($event=='subscribe'){
-        //     //判断用户是否已存在
-        //     $u = WxUserModel::where(['openid'=>$openid])->first();
-        //     if($u){
-        //         $msg = '欢迎回来';
-        //         $xml = '<xml>
-        //           <ToUserName><![CDATA['.$openid.']]></ToUserName>
-        //           <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
-        //           <CreateTime>'.time().'</CreateTime>
-        //           <MsgType><![CDATA[text]]></MsgType>
-        //           <Content><![CDATA['.$msg.']]></Content>
-        //           </xml>';
-        //         echo $xml;
-        //     }else{
-        //         //获取用户信息 zcza
-        //         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
-        //         $user_info = file_get_contents($url);       //
-        //         $u = json_decode($user_info,true);
-        //         //echo '<pre>';print_r($u);echo '</pre>';die;
-        //         //入库用户信息
-        //         $user_data = [
-        //             'openid'    => $openid,
-        //             'nickname'  => $u['nickname'],
-        //             'sex'       => $u['sex'],
-        //             'headimgurl'    => $u['headimgurl'],
-        //             'subscribe_time'    => $u['subscribe_time']
-        //         ];
-        //         //openid 入库
-        //         $uid = WxUserModel::insertGetId($user_data);
-        //         $msg = "谢谢关注";
-        //         //回复用户关注
-        //         $xml = '<xml>
-        //           <ToUserName><![CDATA['.$openid.']]></ToUserName>
-        //           <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
-        //           <CreateTime>'.time().'</CreateTime>
-        //           <MsgType><![CDATA[text]]></MsgType>
-        //           <Content><![CDATA['.$msg.']]></Content>
-        //           </xml>';
-        //         echo $xml;
-        //     }
-        // }elseif($event=='CLICK'){           // 菜单点击事件
-        //     //如果是 获取天气
-        //     if($xml_obj->EventKey=='weather'){
-        //         $response_xml = '<xml>
-        //           <ToUserName><![CDATA['.$openid.']]></ToUserName>
-        //           <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
-        //           <CreateTime>'.time().'</CreateTime>
-        //           <MsgType><![CDATA[text]]></MsgType>
-        //           <Content><![CDATA['. date('Y-m-d H:i:s') . ' 晴天'  .']]></Content>
-        //           </xml>';
-        //         echo $response_xml;
-        //     }
-        //     // aaaa
-        // }
+        if($event=='subscribe'){
+            //判断用户是否已存在
+            $u = WxUserModel::where(['openid'=>$openid])->first();
+            if($u){
+                $msg = '欢迎回来';
+                $xml = '<xml>
+                                <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                                <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                                <CreateTime>'.time().'</CreateTime>
+                                <MsgType><![CDATA[text]]></MsgType>
+                                <Content><![CDATA['.$msg.']]></Content>
+                        </xml>';
+                echo $xml;
+            }else{
+                //获取用户信息 zcza
+                $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$this->access_token.'&openid='.$openid.'&lang=zh_CN';
+                $user_info = file_get_contents($url);       //
+                $u = json_decode($user_info,true);
+                //echo '<pre>';print_r($u);echo '</pre>';die;
+                //入库用户信息
+                $user_data = [
+                    'openid'    => $openid,
+                    'nickname'  => $u['nickname'],
+                    'sex'       => $u['sex'],
+                    'headimgurl'    => $u['headimgurl'],
+                    'subscribe_time'    => $u['subscribe_time']
+                ];
+                //openid 入库
+                $uid = WxUserModel::insertGetId($user_data);
+                $msg = "谢谢关注";
+                //回复用户关注
+                $xml = '<xml>
+                            <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                            <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                            <CreateTime>'.time().'</CreateTime>
+                            <MsgType><![CDATA[text]]></MsgType>
+                            <Content><![CDATA['.$msg.']]></Content>
+                        </xml>';
+                echo $xml;
+            }
+        }elseif($event=='CLICK'){  //菜单点击事件
+
+            if($xml_obj->EventKey=='weather'){ 
+                //获取天气
+            
+            
+                //请求第三方接口 获取天气
+                $weather_api = 'https://free-api.heweather.net/s6/weather/now?location=beijing&key=c3b1cbca3b03464e87ff970f9a863238';
+                $weather_info = file_get_contents($weather_api);
+                $weather_info_arr = json_decode($weather_info,true);
+                // echo '<pre>';print_r($weather_info_arr);echo '</pre>';die;
+                $cond_txt = $weather_info_arr['HeWeather6'][0]['now']['cond_txt'];
+                $tmp = $weather_info_arr['HeWeather6'][0]['now']['tmp'];
+                $wind_dir = $weather_info_arr['HeWeather6'][0]['now']['wind_dir'];
+
+                $msg = $cond_txt.'温度: '.$tmp .'风向: '.$wind_dir;
+
+                $response_xml = '<xml>
+                            <ToUserName><![CDATA['.$openid.']]></ToUserName>
+                            <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
+                            <CreateTime>'.time().'</CreateTime>
+                            <MsgType><![CDATA[text]]></MsgType>
+                            <Content><![CDATA['.date('Y-m-d H:i:s').$msg .']]></Content>
+                        </xml>';
+                echo $response_xml;
+            }
+        }
         // 判断消息类型
         $msg_type = $xml_obj->MsgType;
         $touser = $xml_obj->FromUserName;       //接收消息的用户openid
         $fromuser = $xml_obj->ToUserName;       // 开发者公众号的 ID
         $time = time();
-        // $media_id = $xml_obj->MediaId;
+        $media_id = $xml_obj->MediaId;
         if($msg_type=='text'){
             $content = date('Y-m-d H:i:s') . $xml_obj->Content;
             $response_text = '<xml>
-              <ToUserName><![CDATA['.$touser.']]></ToUserName>
-              <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
-              <CreateTime>'.$time.'</CreateTime>
-              <MsgType><![CDATA[text]]></MsgType>
-              <Content><![CDATA['.$content.']]></Content>
-              </xml>';
+                                    <ToUserName><![CDATA['.$touser.']]></ToUserName>
+                                    <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
+                                    <CreateTime>'.$time.'</CreateTime>
+                                    <MsgType><![CDATA[text]]></MsgType>
+                                    <Content><![CDATA['.$content.']]></Content>
+                            </xml>';
             echo $response_text;            // 回复用户消息
             // TODO 消息入库
+        }elseif($msg_type=='image'){    // 图片消息
+            // TODO 下载图片
+            $this->getMedia2($media_id,$msg_type);
+            // TODO 回复图片
+            $response = '<xml>
+                                <ToUserName><![CDATA['.$touser.']]></ToUserName>
+                                <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
+                                <CreateTime>'.time().'</CreateTime>
+                                <MsgType><![CDATA[image]]></MsgType>
+                                <Image>
+                                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                                </Image>
+                        </xml>';
+            echo $response;
+        }elseif($msg_type=='voice'){          // 语音消息
+            // 下载语音
+            $this->getMedia2($media_id,$msg_type);
+            // TODO 回复语音
+            $response = '<xml>
+                                <ToUserName><![CDATA['.$touser.']]></ToUserName>
+                                <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
+                                <CreateTime>'.time().'</CreateTime>
+                                <MsgType><![CDATA[voice]]></MsgType>
+                                <Voice>
+                                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                                </Voice>
+                        </xml>';
+            echo $response;
+        }elseif($msg_type=='video'){
+            // 下载小视频
+            $this->getMedia2($media_id,$msg_type);
+            // 回复
+            $response = '<xml>
+                                <ToUserName><![CDATA['.$touser.']]></ToUserName>
+                                <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
+                                <CreateTime>'.time().'</CreateTime>
+                                <MsgType><![CDATA[video]]></MsgType>
+                                <Video>
+                                    <MediaId><![CDATA['.$media_id.']]></MediaId>
+                                    <Title><![CDATA[测试]]></Title>
+                                    <Description><![CDATA[不可描述]]></Description>
+                                </Video>
+                        </xml>';
+            echo $response;
         }
-        // elseif($msg_type=='image'){    // 图片消息
-        //     // TODO 下载图片
-        //     $this->getMedia2($media_id,$msg_type);
-        //     // TODO 回复图片
-        //     $response = '<xml>
-        //       <ToUserName><![CDATA['.$touser.']]></ToUserName>
-        //       <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
-        //       <CreateTime>'.time().'</CreateTime>
-        //       <MsgType><![CDATA[image]]></MsgType>
-        //       <Image>
-        //       <MediaId><![CDATA['.$media_id.']]></MediaId>
-        //       </Image>
-        //       </xml>';
-        //     echo $response;
-        // }elseif($msg_type=='voice'){          // 语音消息
-        //     // 下载语音
-        //     $this->getMedia2($media_id,$msg_type);
-        //     // TODO 回复语音
-        //     $response = '<xml>
-        //       <ToUserName><![CDATA['.$touser.']]></ToUserName>
-        //       <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
-        //       <CreateTime>'.time().'</CreateTime>
-        //       <MsgType><![CDATA[voice]]></MsgType>
-        //       <Voice>
-        //       <MediaId><![CDATA['.$media_id.']]></MediaId>
-        //       </Voice>
-        //       </xml>';
-        //     echo $response;
-        // }elseif($msg_type=='video'){
-        //     // 下载小视频
-        //     $this->getMedia2($media_id,$msg_type);
-        //     // 回复
-        //     $response = '<xml>
-        //       <ToUserName><![CDATA['.$touser.']]></ToUserName>
-        //       <FromUserName><![CDATA['.$fromuser.']]></FromUserName>
-        //       <CreateTime>'.time().'</CreateTime>
-        //       <MsgType><![CDATA[video]]></MsgType>
-        //       <Video>
-        //       <MediaId><![CDATA['.$media_id.']]></MediaId>
-        //       <Title><![CDATA[测试]]></Title>
-        //       <Description><![CDATA[不可描述]]></Description>
-        //       </Video>
-        //       </xml>';
-        //     echo $response;
-        // }
     }
-    /**
-     * 获取用户基本信息
-     */
+    /*获取用户基本信息*/
     public function getUserInfo($access_token,$openid)
     {
         $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token='.$access_token.'&openid='.$openid.'&lang=zh_CN';
@@ -196,9 +204,7 @@ class WxController extends Controller
         $log_file = 'wx_user.log';
         file_put_contents($log_file,$json_str,FILE_APPEND);
     }
-    /**
-     * 获取素材
-     */
+    /*获取素材*/
     public function getMedia()
     {
         $media_id = 'MvV4Gy3hH5uSB4XJyYj1apLi-_2xVPEf4eyfg_CWpiEOjhnmIkQOZ5uvxOW1d-8D';
@@ -237,37 +243,36 @@ class WxController extends Controller
         }
         file_put_contents($save_path,$file_content);
     }
-    /**
-     * 刷新 access_token
-     */
+    /*刷新 access_token*/
     public function flushAccessToken()
     {
         $key = 'wx_access_token';
         Redis::del($key);
         echo $this->getAccessToken();
     }
-    /**
-     * 创建自定义菜单
-     */
-    public function createMenu()
-    {
-        //创建自定义菜单的接口地址
+
+    /*创建自定义菜单栏*/
+    public function createMenu(){
+        //穿件自定义菜单栏的地址
         $url = 'https://api.weixin.qq.com/cgi-bin/menu/create?access_token='.$this->access_token;
         $menu = [
-            'button'    => [
+            'button' => [
                 [
-                    'type'  => 'click',
-                    'name'  => '获取天气',
-                    'key'   => 'weather'
+                    'type' => 'click',
+                    'name' => '获取天气',
+                    'key' => 'weather'
                 ],
             ]
         ];
+
         $menu_json = json_encode($menu,JSON_UNESCAPED_UNICODE);
         $client = new Client();
         $response = $client->request('POST',$url,[
-            'body'  => $menu_json
+            'body' => $menu_json
         ]);
+
         echo '<pre>';print_r($menu);echo '</pre>';
-        echo $response->getBody();      //接收 微信接口的响应数据
+        echo $response->getBody(); //接收微信接口的响应
+        
     }
 }
