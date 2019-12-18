@@ -262,6 +262,7 @@ class WxController extends Controller
                     'name' => '获取天气',
                     'key' => 'weather'
                 ]
+                
             ]
         ];
 
