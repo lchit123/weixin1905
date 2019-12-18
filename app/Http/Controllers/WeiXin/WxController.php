@@ -262,7 +262,11 @@ class WxController extends Controller
                     'name' => '获取天气',
                     'key' => 'weather'
                 ]
-                
+                ['type' => 'view',
+                 'name' => '投票',
+                 'url' => 'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx92b4938777947dcd&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=ABCD1905#wechat_redirect',
+                ],
+
             ]
         ];
 
