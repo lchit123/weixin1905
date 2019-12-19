@@ -32,6 +32,15 @@ class WxController extends Controller
   }
 
 
+//获取用户基本信息
+  public function getUserInfo()
+  { 
+
+    $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN'
+
+  }
+
+
 
 
 
