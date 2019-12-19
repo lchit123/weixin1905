@@ -8,6 +8,7 @@ use GuzzleHttp\Client;
  
 class WxController extends Controller
 { 
+ //处理接入
   public function wechat()
   { 
     $token='abc123token';//设置好的token
@@ -30,6 +31,15 @@ class WxController extends Controller
 
 
   }
+
+  public function receiv()
+  { 
+    $log_file="wx.log";
+    //将接收的数据记录到日志文件中
+    $data=json_encode($_POST);
+    file_put_contents($log_file,$data,flags:FILE_APPEND);   //追加写日志
+  }
+
 
 
 //获取用户基本信息
