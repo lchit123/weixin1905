@@ -37,7 +37,7 @@ class WxController extends Controller
     $log_file="wx.log";
     //将接收的数据记录到日志文件中
     $data=json_encode($_POST);
-    file_put_contents($log_file,$data,flags:FILE_APPEND);   //追加写日志
+    file_put_contents($log_file,$data,FILE_APPEND);   //追加写日志
   }
 
 
@@ -46,17 +46,8 @@ class WxController extends Controller
   public function getUserInfo()
   { 
 
-    $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN'
+    $url='https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN';
 
   }
-
-
-
-
-
-
-
-
-
 
 }
