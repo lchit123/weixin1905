@@ -30,6 +30,9 @@ Route::get('/weixin/flush/access_token','Wechat\WechatController@flushAccessToke
 // Route::get('/wx/menu','WeiXin\WxController@createMenu');        //创建菜单
 // Route::get('/wx/test','WeiXin\WxController@test');  
 //       //创建菜单
+ Route::get('/test/xml','Test\TestController@xmlTest');
+
+
 
 
  //微信开发
