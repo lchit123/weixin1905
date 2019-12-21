@@ -29,9 +29,10 @@ Route::get('/weixin/flush/access_token','Wechat\WechatController@flushAccessToke
 // Route::get('/wx/flush/access_token','WeiXin\WxController@flushAccessToken');        //刷新access_token
 // Route::get('/wx/menu','WeiXin\WxController@createMenu');        //创建菜单
 // Route::get('/wx/test','WeiXin\WxController@test');  
-//       //创建菜单
- Route::get('/test/xml','Test\TestController@xmlTest');
-
+ ;
+Route::get('/test/xml','Test\TestController@xmlTest');
+ 
+ 
 
 
 
