@@ -26,7 +26,7 @@ class WXController extends Controller
        // echo $url;die;
         $data_json = file_get_contents($url);
         $arr = json_decode($data_json, true);
-         
+
         Redis::set($key,$arr['access_token']);
         Redis::expire($key,3600);
         return $arr['access_token'];
@@ -56,6 +56,11 @@ class WXController extends Controller
     {
         $log_file = "wx.log";
         //将接收 _contents($log_file, $data, FILE_APPEND);//追加写
+        //2019-12-23 17:28:11
+
+ 		$xml_str = file_get_contents("php://input");
+        $data = date('Y-m-d H:i:s') . $xml_str;
+        file_put_contents($log_file, $data, FILE_APPEND);//追加写
         $xml_obj = simplexml_load_string($xml_str);
         $event = $xml_obj->Event;
         $content = date('Y-m-d H:i:s') . $xml_obj->Content;
