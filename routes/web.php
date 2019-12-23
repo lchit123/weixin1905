@@ -38,9 +38,11 @@ Route::get('/test/xml','Test\TestController@xmlTest');
 
  //微信开发
  
+Route::get('/phpinfo',function(){
+	phpinfo();
+});
 
 Route::get('/weixin','WX\WXController@wx');
-Route::get('/phpinfo','WX\WXController@phpinfo');
 Route::post('/wx','WX\WXController@receiv');
 Route::get('/wx/menu','WX\WXController@createMenu');        //创建菜单
 Route::get('/vote','VoteController@index');
