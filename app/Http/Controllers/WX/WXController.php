@@ -89,6 +89,7 @@ class WXController extends Controller
                 $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . $this->access_token . '&openid=' . $openid . '&lang=zh_CN';
                 $user_info = file_get_contents($url);
                 $u = json_decode($user_info, true);
+                dd($u);
                 $data = [
                     'openid' => $openid,
                     'sub_time' => date('Y-m-d H:i:s'),
