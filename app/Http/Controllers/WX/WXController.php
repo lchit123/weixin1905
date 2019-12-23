@@ -89,7 +89,7 @@ class WXController extends Controller
                 $u = json_decode($user_info, true);
                 $data = [
                     'openid' => $openid,
-                    'sub_time' => time(),
+                    'sub_time' => date('Y-m-d H:i:s'),
                     'sex' => $u['sex'],
                     'nickname' => $u['nickname'],
                     'img' => $u['headimgurl'],
