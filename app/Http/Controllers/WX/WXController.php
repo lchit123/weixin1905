@@ -3,7 +3,7 @@ namespace App\Http\Controllers\WX;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\wxmodel;
-use App\WX\WxUserModel;
+use App\Model\WxUserModel;
 use App\wx\ImgModel;
 use App\wx\VideoModel;
 use App\wx\VoiceModel;
