@@ -3,6 +3,7 @@ namespace App\Http\Controllers\WX;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\wxmodel;
+use App\WX\WxUserModel;
 use App\wx\ImgModel;
 use App\wx\VideoModel;
 use App\wx\VoiceModel;
@@ -66,7 +67,7 @@ class WXController extends Controller
         $content = date('Y-m-d H:i:s') . $xml_obj->Content;
         if ($event == 'subscribe') {
             $openid = $xml_obj->FromUserName;  //获取用户的openid
-            $res = wxmodel::where(['openid' => $openid])->first();
+            $res = WxUserModel::where(['openid' => $openid])->first();
 //            dd($res);
             if(!empty($res)) {
 //                dd(11);
@@ -94,7 +95,7 @@ class WXController extends Controller
                     'img' => $u['headimgurl'],
                 ];
                 //openid入库
-                $uid = wxmodel::insertGetId($data);
+                $uid = WxUserModel::insertGetId($data);
                 file_put_contents('wx_user.log', $user_info, FILE_APPEND);
                 $content = '欢迎关注';
                 $response_text = '<xml>
