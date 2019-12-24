@@ -92,7 +92,7 @@ class WXController extends Controller
                 
                 $data = [
                     'openid' => $openid,
-                    'sub_time' => date('Y-m-d H:i:s'),
+                    'sub_time' => time(),
                     'sex' => $u['sex'],
                     'nickname' => $u['nickname'],
                     'img' => $u['headimgurl'],
