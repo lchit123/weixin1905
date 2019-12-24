@@ -18,19 +18,19 @@ class WXController extends Controller
     }
     public function getaccess_token()
     {
-        // $key = 'wx_access_token';
-        // $access_token = Redis::get($key);
-        // if($access_token){
-        //     return $access_token;
-        // }
+        $key = 'wx_access_token';
+        $access_token = Redis::get($key);
+        if($access_token){
+            return $access_token;
+        }
         $url = 'https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=' . env('APPID') . '&secret=' . env('APPSECRET');
        // echo $url;die;
         $data_json = file_get_contents($url);
         $arr = json_decode($data_json, true);
 
-        // Redis::set($key,$arr['access_token']);
-        // Redis::expire($key,3600);
-        // return $arr['access_token'];
+         Redis::set($key,$arr['access_token']);
+         Redis::expire($key,3600);
+         return $arr['access_token'];
         $a='28_ZVfNocoSaEQl2i7S8KxuMhs8TXXNhtbTb6vkcOUuvKg5olzozR-xp1Kb8rTRqSFxpsq10sfZHCijuvAObG-Lq-o7Xltgc4k3Z9s4s8m88GvmHIsEx0aqB2bS1iF0YlpMYntDEzsPChyajr7hOXSaAGAUDY';
         return $a;
     }
@@ -89,7 +89,7 @@ class WXController extends Controller
                 $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . $this->access_token . '&openid=' . $openid . '&lang=zh_CN';
                 $user_info = file_get_contents($url);
                 $u = json_decode($user_info, true);
-                dd($u);
+                
                 $data = [
                     'openid' => $openid,
                     'sub_time' => date('Y-m-d H:i:s'),
@@ -117,6 +117,7 @@ class WXController extends Controller
                 $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . $this->access_token . '&openid=' . $xml_obj->FromUserName . '&lang=zh_CN';
                 $user_info = file_get_contents($url);
                 $u = json_decode($user_info, true);
+                //dd($u);
                 $location=$u['city'];
                 $weather_api = 'https://free-api.heweather.net/s6/weather/now?location='.$location.'&key=b2e92f2df77e48b3a36f20e912b796d9';
                 $weather_info = file_get_contents($weather_api);
