@@ -100,7 +100,7 @@ class WXController extends Controller
                 //openid入库
                 $uid = WxUserModel::insertGetId($data);
                 file_put_contents('wx_user.log', $user_info, FILE_APPEND);
-                $content = '欢迎关注';
+                $content = '欢迎银桑同学进入选课系统';
                 $response_text = '<xml>
                         <ToUserName><![CDATA[' . $openid . ']]></ToUserName>
                         <FromUserName><![CDATA[' . $xml_obj->ToUserName . ']]></FromUserName>
@@ -112,8 +112,7 @@ class WXController extends Controller
             }
         }elseif($event=='CLICK'){
             if($xml_obj->EventKey=='weather'){
-                //如果是 获取天气
-                //请求第三方接口 获取天气
+                 
                 $url = 'https://api.weixin.qq.com/cgi-bin/user/info?access_token=' . $this->access_token . '&openid=' . $xml_obj->FromUserName . '&lang=zh_CN';
                 $user_info = file_get_contents($url);
                 $u = json_decode($user_info, true);
@@ -126,7 +125,7 @@ class WXController extends Controller
                 $cond_txt = $weather_info_arr['HeWeather6'][0]['now']['cond_txt'];
                 $tmp = $weather_info_arr['HeWeather6'][0]['now']['tmp'];
                 $wind_dir = $weather_info_arr['HeWeather6'][0]['now']['wind_dir'];
-                $msg = $cond_txt . ' 温度： '.$tmp . ' 风向： '. $wind_dir;
+                $msg = $cond_txt . ' 课程： '.$tmp . ' 管理： '. $wind_dir;
                 $response_xml = '<xml>
                 <ToUserName><![CDATA['.$xml_obj->FromUserName.']]></ToUserName>
                 <FromUserName><![CDATA['.$xml_obj->ToUserName.']]></FromUserName>
@@ -259,12 +258,12 @@ class WXController extends Controller
             'button'    => [
                 [
                     'type'  => 'click',
-                    'name'  => '获取天气',
+                    'name'  => '查看课程',
                     'key'   => 'weather'
                 ],
                 [
                     'type'  => 'view',
-                    'name'  => '投票',
+                    'name'  => '管理课程',
                     'url'   =>'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9458fefe0c30d65b&redirect_uri='.$redirect_uri.'&response_type=code&scope=snsapi_userinfo&state=WX1905#wechat_redirect',
                 ],
             ]
