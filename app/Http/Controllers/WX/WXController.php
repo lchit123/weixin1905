@@ -258,7 +258,7 @@ class WXController extends Controller
             'button'    => [
                 [
                     'type'  => 'click',
-                    'name'  => '查看课程',
+                    'name'  => '查课课程',
                     'key'   => 'weather'
                 ],
                 [
