@@ -100,7 +100,7 @@ class WXController extends Controller
                 //openid入库
                 $uid = WxUserModel::insertGetId($data);
                 file_put_contents('wx_user.log', $user_info, FILE_APPEND);
-                $content = '欢迎银桑同学进入选课系统';
+                $content = '欢迎墙同学进入选课系统';
                 $response_text = '<xml>
                         <ToUserName><![CDATA[' . $openid . ']]></ToUserName>
                         <FromUserName><![CDATA[' . $xml_obj->ToUserName . ']]></FromUserName>
