@@ -73,7 +73,7 @@ class WXController extends Controller
 //            dd($res);
             if(!empty($res)) {
 //                dd(11);
-                $content = '一定来得及欢迎你关注我';
+                $content = '欢迎回来哦';
                 $response_text =
 '<xml>
     <ToUserName><![CDATA[' . $openid . ']]></ToUserName>
@@ -100,7 +100,7 @@ class WXController extends Controller
                 //openid入库
                 $uid = WxUserModel::insertGetId($data);
                 file_put_contents('wx_user.log', $user_info, FILE_APPEND);
-                $content = '欢迎一定来的及关注我';
+                $content = '欢迎关注哦';
                 $response_text = '<xml>
                         <ToUserName><![CDATA[' . $openid . ']]></ToUserName>
                         <FromUserName><![CDATA[' . $xml_obj->ToUserName . ']]></FromUserName>
