@@ -59,6 +59,7 @@ class TestController extends Controller
         $key = storage_path('keys/app_priv');
         $priKey = file_get_contents($key);
         $res = openssl_get_privatekey($priKey);
+        dd($res);
         //var_dump($res);echo '</br>';
         openssl_sign($str, $sign, $res, OPENSSL_ALGO_SHA256);
         $sign = base64_encode($sign);
