@@ -81,7 +81,7 @@
 
             <div class="content">
                 <div class="title m-b-md">
-                    Laravel 2222
+                     <b style="color: red">Laravel</b>
                 </div>
 
                 <div class="links">
