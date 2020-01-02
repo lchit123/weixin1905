@@ -23,7 +23,7 @@ class TestController extends Controller
         // 请求参数
         $out_trade_no = time() . rand(1111,9999);       //商户订单号
         $product_code = 'FAST_INSTANT_TRADE_PAY';
-        $total_amount = 0.01;
+        $total_amount = 1000;
         $subject = '测试订单' . $out_trade_no;
         $request_param = [
             'out_trade_no'  => $out_trade_no,
@@ -59,7 +59,7 @@ class TestController extends Controller
         $key = storage_path('keys/app_priv');
         $priKey = file_get_contents($key);
         $res = openssl_get_privatekey($priKey);
-        dd($res);
+        //dd($res);
         //var_dump($res);echo '</br>';
         openssl_sign($str, $sign, $res, OPENSSL_ALGO_SHA256);
         $sign = base64_encode($sign);
