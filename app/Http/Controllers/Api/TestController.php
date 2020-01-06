@@ -125,7 +125,7 @@ class TestController extends Controller
 
 
 
-    public function encrypt()
+    public function jm()
     {
         $data=$_GET['data'];
         echo "原文:".$data;echo "</br>";
@@ -145,7 +145,7 @@ class TestController extends Controller
      * 解密
      * @return [type] [description]
      */
-    public function decrypt()
+    public function jim()
     {
         $data=$_GET['data'];
         echo "原文:".$data;echo "</br>";

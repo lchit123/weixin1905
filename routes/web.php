@@ -49,4 +49,4 @@ Route::post('/api/user/login','Api\TestController@login');     //用户登录
 Route::get('/api/user/list','Api\TestController@userList')->middleware('fileter');     //用户列表
 Route::get('/api/aa','Api\TestController@aa');
 Route::get('/api/dec','Api\TestController@dec');
-Route::get('/api/encrypt','Api\TestController@encrypt');
+Route::get('/api/jm','Api\TestController@jm');
