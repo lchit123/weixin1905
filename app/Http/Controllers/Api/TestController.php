@@ -125,12 +125,38 @@ class TestController extends Controller
 
 
 
-
-
-
-
-
-
+    public function encrypt()
+    {
+        $data=$_GET['data'];
+        echo "原文:".$data;echo "</br>";
+        $method="AES-256-CBC";
+        $key="1905_week";
+        $iv="abcdefghigklmnop";
+        $enc_data=openssl_encrypt($data,$method,$key,OPENSSL_RAW_DATA,$iv);
+        $enc_data=base64_encode($enc_data);
+        echo "加密后密文:".$enc_data;"</br>";
+        echo "<hr>";
+        echo "解密:";echo "</br>";
+        $enc_data=base64_decode($enc_data);
+        $dec_data=openssl_decrypt($enc_data,$method,$key,OPENSSL_RAW_DATA,$iv);
+        echo $dec_data;
+    }
+    /**
+     * 解密
+     * @return [type] [description]
+     */
+    public function decrypt()
+    {
+        $data=$_GET['data'];
+        echo "原文:".$data;echo "</br>";
+        $method="AES-256-CBC";
+        $key="1905_week";
+        $iv="abcdefghigklmnop";
+        echo "解密:";echo "</br>";
+        $enc_data=base64_decode($data);
+        $dec_data=openssl_decrypt($enc_data,$method,$key,OPENSSL_RAW_DATA,$iv);
+        echo $dec_data;
+    }
 
 
 
