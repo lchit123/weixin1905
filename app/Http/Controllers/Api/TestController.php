@@ -119,15 +119,14 @@ class TestController extends Controller
             $ord=ord($enc[$i]);
             $chr=chr($ord);
             echo $ord . '>>>' . $chr;echo '</br>';
-
-
         }
 
-
-
-
-
       }
+
+
+
+
+
 
 
 
