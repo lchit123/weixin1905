@@ -33,6 +33,7 @@ class TestController extends Controller
             'last_login'    => time(),
             'last_ip'       => $_SERVER['REMOTE_ADDR'],     //获取远程IP
         ];
+         //var_dump($data);
         $uid = UserModel::insertGetId($data);
         var_dump($uid);
     }
@@ -80,22 +81,65 @@ class TestController extends Controller
      */
     public function userList()
     {
-        $user_token = $_SERVER['HTTP_TOKEN'];
-        echo 'user_token: '.$user_token;echo '</br>';
-        $current_url = $_SERVER['REQUEST_URI'];
-        echo "当前URL: ".$current_url;echo '<hr>';
-        //echo '<pre>';print_r($_SERVER);echo '</pre>';
-        //$url = $_SERVER[''] . $_SERVER[''];
-        $redis_key = 'str:count:u:'.$user_token.':url:'.md5($current_url);
-        echo 'redis key: '.$redis_key;echo '</br>';
-        $count = Redis::get($redis_key);        //获取接口的访问次数
-        echo "接口的访问次数： ".$count;echo '</br>';
-        if($count >= 5){
-            echo "请不要频繁访问此接口，访问次数已到上限，请稍后再试";
-            Redis::expire($redis_key,3600);
-            die;
-        }
-        $count = Redis::incr($redis_key);
-        echo 'count: '.$count;
+
+            $list=UserModel::all();
+            echo '<pre>';print_r($list->toArray());echo '</pre>';
+
     }
+
+    public function aa()
+    { 
+        $char='Hello World';
+        $length=strlen($char);
+        echo $length;echo '</br>';
+
+        $pass="";
+        for($i=0;$i<$length;$i++)
+        { 
+            echo $char[$i] . '>>>' . ord($char[$i]);echo '</br>';
+            $ord=ord($char[$i]) -3;
+            $chr=chr($ord);
+            echo $char[$i]. '>>>' . $ord . '>>>' .$chr;echo '<hr>';      
+            //$str .=$chr;
+
+       }
+        echo "解密： ".$chr;
+      }
+
+      //解密
+      public function dec()
+      { 
+
+        $enc='Khoor#Zruog';
+        echo "密文:".$enc;echo '<hr>';
+        $length=strlen($enc);
+
+        for($i=0;$i<$length;$i++)
+        { 
+            $ord=ord($enc[$i]);
+            $chr=chr($ord);
+            echo $ord . '>>>' . $chr;echo '</br>';
+
+
+        }
+
+
+
+
+
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 }
